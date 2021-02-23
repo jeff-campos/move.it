@@ -10,6 +10,7 @@ export const GlobalStyle = createGlobalStyle`
   --text-highlight: #b3b9ff;
   --title: #2e384d;
   --red: #e83f5b;
+  --red-dark: #db565f;
   --green: #4cd62b;
   --blue: #5965e0;
   --blue-dark: #4953b8;
@@ -72,6 +73,7 @@ const BasicLayout = ({ children }: { children: any }) => {
   return (
     <>
       <Head>
+        <link rel="shortcut icon" href="favicon.png" type="image/png" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           rel="stylesheet"
