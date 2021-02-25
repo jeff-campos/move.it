@@ -9,7 +9,7 @@ import {
 } from "./styles";
 
 export default function ChallengeBox() {
-  const { activeChallenge, resetChallenge } = useContext(ChallengeContext);
+  const { activeChallenge, resetChallenge, completeChallenge } = useContext(ChallengeContext);
 
   return (
     <Container>
@@ -27,7 +27,7 @@ export default function ChallengeBox() {
             <Button styleType="failed" type="button" onClick={resetChallenge}>
               Falhei
             </Button>
-            <Button styleType="succeeded" type="button">
+            <Button styleType="succeeded" type="button" onClick={completeChallenge}>
               Completei
             </Button>
           </footer>
