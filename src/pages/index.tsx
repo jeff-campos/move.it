@@ -2,11 +2,12 @@ import styled from "styled-components";
 import BasicLayout from "../styles/global";
 import ExperienceBar from "../components/ExperienceBar";
 
-import Profile from '../components/Profile'
+import Profile from "../components/Profile";
 import CompletedChanllenges from "src/components/CompletedChanllenges";
 import Countdown from "src/components/Countdown";
 
-import Head from 'next/head'
+import Head from "next/head";
+import ChallengeBox from "src/components/ChallengeBox";
 
 const Container = styled.div`
   flex: 1;
@@ -34,7 +35,9 @@ export default function Home() {
           <CompletedChanllenges />
           <Countdown />
         </div>
-        <div>tela 2</div>
+        <div>
+          <ChallengeBox />
+        </div>
       </Container>
     </BasicLayout>
   );

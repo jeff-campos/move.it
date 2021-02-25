@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { ChallengeContext } from "src/context/challengesContext";
 
-import { PanelCountdown, Container, ButtonCountdown } from "./styles";
+import { PanelCountdown, Container, Button } from "./styles";
+
+let initialTime = 0.1 * 60;
+let countdownTimeout: NodeJS.Timeout;
 
 export default function Countdown() {
-  const [time, updateTime] = useState(25 * 60);
-  const [active, updateActive] = useState(false);
+  const { startNewChallenge } = useContext(ChallengeContext);
+
+  const [time, updateTime] = useState(initialTime);
+  const [isActive, updateIsActive] = useState(false);
+  const [isFinished, updateIsFinished] = useState(false);
 
   const minute = Math.floor(time / 60);
   const seconds = time % 60;
@@ -12,17 +19,26 @@ export default function Countdown() {
   const [minuteLeft, minuteRight] = String(minute).padStart(2, "0").split("");
   const [secondLeft, secondRight] = String(seconds).padStart(2, "0").split("");
 
-  function startCountdown() {
-    updateActive(!active);
+  function handleCountdownButton(status: boolean) {
+    if (status) {
+      updateTime(initialTime);
+    } else {
+      clearTimeout(countdownTimeout);
+    }
+
+    updateIsActive(status);
   }
 
   useEffect(() => {
-    if (active && time > 0) {
-      setTimeout(() => {
+    if (isActive && time > 0) {
+      countdownTimeout = setTimeout(() => {
         updateTime(time - 1);
       }, 1000);
+    } else if (isActive && time === 0) {
+      updateIsFinished(true);
+      startNewChallenge();
     }
-  }, [active, time]);
+  }, [isActive, time]);
 
   return (
     <Container>
@@ -37,9 +53,23 @@ export default function Countdown() {
           <span>{secondRight}</span>
         </div>
       </PanelCountdown>
-      <ButtonCountdown type="button" onClick={startCountdown} status={active}>
-        {`${active ? "Parar" : "Iniciar"} ciclo`}
-      </ButtonCountdown>
+
+      {/** Botão de controle Countdown */}
+
+      <Button
+        type="button"
+        status={isActive}
+        preview={!isFinished}
+        onClick={() => handleCountdownButton(!isActive)}
+      >
+        {`${isActive ? "abandonar" : "iniciar"} ciclo`}
+      </Button>
+
+      {/** Botão de finalização */}
+
+      <Button type="button" status disabled preview={isFinished}>
+        ciclo encerrado
+      </Button>
     </Container>
   );
 }
