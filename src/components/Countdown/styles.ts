@@ -43,13 +43,13 @@ export const PanelCountdown = styled.div`
   }
 `;
 
-export const ButtonCountdown = styled.button<{ status: boolean }>`
+export const Button = styled.button<{ status: boolean; preview: boolean }>`
   width: 100%;
   height: 5rem;
 
   margin-top: 2rem;
 
-  display: flex;
+  display: ${({ preview }) => (preview ? "flex" : "none")};
   align-items: center;
   justify-content: center;
 
@@ -60,6 +60,12 @@ export const ButtonCountdown = styled.button<{ status: boolean }>`
   font-size: 1.25rem;
   font-weight: 600;
 
+  background: var(--red);
+  
+  &:not(:disabled):hover {
+    background: var(--red-dark);
+  }
+
   transition: background-color 0.2s linear;
 
   outline: none;
@@ -68,17 +74,17 @@ export const ButtonCountdown = styled.button<{ status: boolean }>`
     if (!status) {
       return css`
         background: var(--blue);
-        &:hover {
+        &:not(:disabled):hover {
           background: var(--blue-dark);
         }
       `;
     }
-
-    return css`
-      background: var(--red);
-      &:hover {
-        background: var(--red-dark);
-      }
-    `;
   }}
+
+  
+  &:disabled {
+    background: var(--white);
+    color: var(--text);
+    cursor: not-allowed;
+  }
 `;
