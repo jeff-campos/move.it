@@ -8,6 +8,8 @@ import Countdown from "src/components/Countdown";
 
 import Head from "next/head";
 import ChallengeBox from "src/components/ChallengeBox";
+import { GetServerSideProps } from "next";
+import { ChallengeProvider } from "src/context/challengesContext";
 
 const Container = styled.div`
   flex: 1;
@@ -22,23 +24,46 @@ const Container = styled.div`
   }
 `;
 
-export default function Home() {
+export default function Home({
+  level,
+  currentExperience,
+  challengesCompleted,
+}) {
+
   return (
-    <BasicLayout>
-      <Head>
-        <title>Início | move.it</title>
-      </Head>
-      <ExperienceBar />
-      <Container>
-        <div>
-          <Profile />
-          <CompletedChanllenges />
-          <Countdown />
-        </div>
-        <div>
-          <ChallengeBox />
-        </div>
-      </Container>
-    </BasicLayout>
+    <ChallengeProvider
+      level={level}
+      currentExperience={currentExperience}
+      challengesCompleted={challengesCompleted}
+    >
+      <BasicLayout>
+        <Head>
+          <title>Início | move.it</title>
+        </Head>
+        <ExperienceBar />
+        <Container>
+          <div>
+            <Profile />
+            <CompletedChanllenges />
+            <Countdown />
+          </div>
+          <div>
+            <ChallengeBox />
+          </div>
+        </Container>
+      </BasicLayout>
+    </ChallengeProvider>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const cookies = context.req.cookies;
+
+  return {
+    props: {
+      level: Number(cookies.level),
+      currentExperience: Number(cookies.currentExperience),
+      challengesCompleted: Number(cookies.challengesCompleted),
+    },
+  };
+};
