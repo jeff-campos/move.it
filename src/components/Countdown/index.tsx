@@ -3,7 +3,7 @@ import { ChallengeContext } from "src/context/challengesContext";
 
 import { PanelCountdown, Container, Button } from "./styles";
 
-let initialTime = 0.1 * 60;
+let initialTime = 30 * 60;
 let countdownTimeout: NodeJS.Timeout;
 
 export default function Countdown() {
